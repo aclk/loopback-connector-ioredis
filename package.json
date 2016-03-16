@@ -1,0 +1,49 @@
+{
+  "name": "loopback-connector-ioredis",
+  "version": "0.0.0",
+  "description": "LoopBack Redis Connector using ioredis",
+  "author": {
+    "name": "Wiredcraft",
+    "email": "info@wiredcraft.com",
+    "url": "http://wiredcraft.com"
+  },
+  "contributors": [
+    "Makara Wang"
+  ],
+  "keywords": [
+    "LoopBack",
+    "Redis",
+    "ioredis",
+    "DataSource",
+    "Connector"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Wiredcraft/loopback-connector-ioredis"
+  },
+  "bugs": {
+    "url": "https://github.com/Wiredcraft/loopback-connector-ioredis/issues"
+  },
+  "homepage": "https://github.com/Wiredcraft/loopback-connector-ioredis",
+  "dependencies": {
+    "bluebird": "^3.3.4",
+    "debug": "^2.2.0",
+    "es6-shim": "^0.34.4",
+    "ioredis": "^1.15.1",
+    "loopback-connector": "^2.3.0",
+    "node-uuid": "^1.4.0"
+  },
+  "devDependencies": {
+    "coveralls": "^2.11.8",
+    "istanbul": "^0.4.2",
+    "jscs": "^2.11.0",
+    "loopback-datasource-juggler": "^2.45.2",
+    "mocha": "^2.4.5",
+    "rc": "^1.0.0",
+    "should": "^8.2.2"
+  },
+  "scripts": {
+    "test": "make test"
+  }
+}
