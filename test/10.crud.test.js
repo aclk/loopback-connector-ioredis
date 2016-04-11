@@ -154,19 +154,17 @@ describe('Couchbase CRUD', function () {
     it('can destroy a saved instance', function (done) {
       var person = Person(persons[0]);
       person.remove().then(function (res) {
-        res.should.be.Object().with.property('count', 1);
+        res.should.equal(1);
         done();
       }).catch(done);
     });
 
     it('cannot destroy an unsaved instance', function (done) {
       var person = Person(persons[2]);
-      person.remove().then(function () {
-        done(new Error('expected an error'));
-      }, function (err) {
-        should.exist(err);
+      person.remove().then(function (res) {
+        res.should.equal(0);
         done();
-      });
+      }).catch(done);
     });
 
     // TODO: more errors
@@ -187,15 +185,21 @@ describe('Couchbase CRUD', function () {
 
     it('can destroy a saved instance', function (done) {
       Person.destroyById('0').then(function (res) {
-        res.should.be.Object().with.property('count', 1);
+        res.length.should.equal(1);
+        res[0].should.equal(1);
         done();
       }).catch(done);
     });
 
     it('cannot destroy an unsaved instance', function (done) {
-      Person.destroyById('2').then(function () {
-        done(new Error('expected an error'));
-      }, function (err) {
+      Person.destroyById('2').then(function (res) {
+        res.length.should.equal(0);
+        done();
+      }).catch(done);
+    });
+
+    it('cannot destroy without giving id', function (done) {
+      Person.destroyById('').then().catch(function (err) {
         should.exist(err);
         done();
       });
@@ -348,7 +352,7 @@ describe('Couchbase CRUD', function () {
     });
   });
 
-  describe.skip('Destroy multiple', function () {
+  describe('Destroy multiple', function () {
     before(function (done) {
       Person.create(persons[0]).then(function () {
         done();
@@ -367,12 +371,13 @@ describe('Couchbase CRUD', function () {
       }, done);
     });
 
-    it('can remove 2 instances', function (done) {
+    it.skip('can remove 2 instances', function (done) {
       Person.remove({
         id: {
           inq: ['0', '1']
         }
       }).then(function (res) {
+        console.log(res);
         res.should.deepEqual({
           count: 2
         });
@@ -380,7 +385,7 @@ describe('Couchbase CRUD', function () {
       }).catch(done);
     });
 
-    it('cannot remove them again', function (done) {
+    it.skip('cannot remove them again', function (done) {
       Person.remove({
         id: {
           inq: ['0', '1']
@@ -391,6 +396,13 @@ describe('Couchbase CRUD', function () {
         should.exist(err);
         done();
       });
+    });
+
+    it('can remove all instances of one model', function (done) {
+      Person.remove().then(function (res) {
+        res.should.equal(2);
+        done();
+      }).catch(done);
     });
   });
 
