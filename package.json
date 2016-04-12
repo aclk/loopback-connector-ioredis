@@ -27,7 +27,6 @@
   },
   "homepage": "https://github.com/Wiredcraft/loopback-connector-ioredis",
   "dependencies": {
-    "async": "^1.5.2",
     "bluebird": "^3.3.4",
     "debug": "^2.2.0",
     "es6-shim": "^0.34.4",

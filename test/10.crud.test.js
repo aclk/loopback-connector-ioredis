@@ -154,7 +154,7 @@ describe('Couchbase CRUD', function () {
     it('can destroy a saved instance', function (done) {
       var person = Person(persons[0]);
       person.remove().then(function (res) {
-        res.should.equal(1);
+        res.should.be.Object().with.property('count', 1);
         done();
       }).catch(done);
     });
@@ -162,7 +162,7 @@ describe('Couchbase CRUD', function () {
     it('cannot destroy an unsaved instance', function (done) {
       var person = Person(persons[2]);
       person.remove().then(function (res) {
-        res.should.equal(0);
+        res.should.be.Object().with.property('count', 0);
         done();
       }).catch(done);
     });
@@ -185,15 +185,14 @@ describe('Couchbase CRUD', function () {
 
     it('can destroy a saved instance', function (done) {
       Person.destroyById('0').then(function (res) {
-        res.length.should.equal(1);
-        res[0].should.equal(1);
+        res.should.be.Object().with.property('count', 1);
         done();
       }).catch(done);
     });
 
     it('cannot destroy an unsaved instance', function (done) {
       Person.destroyById('2').then(function (res) {
-        res.length.should.equal(0);
+        res.should.be.Object().with.property('count', 0);
         done();
       }).catch(done);
     });
