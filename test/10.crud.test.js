@@ -287,7 +287,7 @@ describe('Couchbase CRUD', function () {
     // TODO: more errors
   });
 
-  describe.skip('Find multiple', function () {
+  describe('Find multiple', function () {
     before(function (done) {
       Person.create(persons[0]).then(function () {
         done();
@@ -306,20 +306,31 @@ describe('Couchbase CRUD', function () {
       }, done);
     });
 
-    it('can find 2 instances', function (done) {
+    it('can find 2 instances by id', function (done) {
       Person.findByIds(['0', '1']).then(function (res) {
         res.should.be.Array().with.length(2);
+        res[0].should.have.property('id', '0');
+        res[0].should.have.property('name', 'Charlie');
+        res[1].should.have.property('id', '1');
+        res[1].should.have.property('name', 'Mary');
         done();
       }).catch(done);
     });
 
-    it('cannot find wrong instances', function (done) {
-      Person.findByIds(['0', 'lorem']).then(function () {
-        done(new Error('expected an error'));
-      }, function (err) {
-        should.exist(err);
+    it('cannot find wrong instances by id', function (done) {
+      Person.findByIds(['0', 'lorem']).then(function (res) {
+        res.should.be.Array().with.length(2);
+        res[0].should.have.property('name', 'Charlie');
+        res[1].should.be.empty;
         done();
-      });
+      }).catch(done);
+    });
+
+    it('can find empty when giving a empty array of ids', function (done) {
+      Person.findByIds([]).then(function (res) {
+        res.should.be.Array().with.length(0);
+        done();
+      }).catch(done);
     });
 
     it('can find 2 instances', function (done) {
@@ -331,6 +342,10 @@ describe('Couchbase CRUD', function () {
         }
       }).then(function (res) {
         res.should.be.Array().with.length(2);
+        res[0].should.have.property('id', '0');
+        res[0].should.have.property('name', 'Charlie');
+        res[1].should.have.property('id', '1');
+        res[1].should.have.property('name', 'Mary');
         done();
       }).catch(done);
     });
@@ -342,66 +357,124 @@ describe('Couchbase CRUD', function () {
             inq: ['0', 'lorem']
           }
         }
-      }).then(function () {
-        done(new Error('expected an error'));
-      }, function (err) {
-        should.exist(err);
+      }).then(function (res) {
+        res.should.be.Array().with.length(2);
+        res[0].should.have.property('name', 'Charlie');
+        res[1].should.be.empty;
         done();
-      });
+      }).catch(done);
     });
+
+    // TODO: more errors
   });
 
   describe('Destroy multiple', function () {
-    before(function (done) {
-      Person.create(persons[0]).then(function () {
-        done();
-      }, done);
-    });
+    describe('Destroy multiple instances', function () {
+      before(function (done) {
+        Person.create(persons[0]).then(function () {
+          done();
+        }, done);
+      });
 
-    before(function (done) {
-      Person.create(persons[1]).then(function () {
-        done();
-      }, done);
-    });
+      before(function (done) {
+        Person.create(persons[1]).then(function () {
+          done();
+        }, done);
+      });
 
-    after(function (done) {
-      connector.connect().call('flushall').then(function () {
-        done();
-      }, done);
-    });
+      before(function (done) {
+        Person.create(persons[2]).then(function () {
+          done();
+        }, done);
+      });
 
-    it.skip('can remove 2 instances', function (done) {
-      Person.remove({
-        id: {
-          inq: ['0', '1']
-        }
-      }).then(function (res) {
-        console.log(res);
-        res.should.deepEqual({
-          count: 2
-        });
-        done();
-      }).catch(done);
-    });
+      after(function (done) {
+        connector.connect().call('flushall').then(function () {
+          done();
+        }, done);
+      });
 
-    it.skip('cannot remove them again', function (done) {
-      Person.remove({
-        id: {
-          inq: ['0', '1']
-        }
-      }).then(function () {
-        done(new Error('expected an error'));
-      }, function (err) {
-        should.exist(err);
-        done();
+      it('can remove 2 instances', function (done) {
+        Person.remove({
+          id: {
+            inq: ['0', '1']
+          }
+        }).then(function (res) {
+          res.should.deepEqual({
+            count: 2
+          });
+          done();
+        }).catch(done);
+      });
+
+      it('cannot remove them again', function (done) {
+        Person.remove({
+          id: {
+            inq: ['0', '1']
+          }
+        }).then(function (res) {
+          res.should.deepEqual({
+            count: 0
+          });
+          done();
+        }).catch(done);
+      });
+
+      it('can remove a saved instance while cannot remove unsaved one', function (done) {
+        Person.remove({
+          id: {
+            inq: ['0', '2']
+          }
+        }).then(function (res) {
+          res.should.deepEqual({
+            count: 1
+          });
+          done();
+        }).catch(done);
       });
     });
+    describe('Destroy all instances', function () {
+      before(function (done) {
+        Person.create(persons[0]).then(function () {
+          done();
+        }, done);
+      });
 
-    it('can remove all instances of one model', function (done) {
-      Person.remove().then(function (res) {
-        res.should.equal(2);
-        done();
-      }).catch(done);
+      before(function (done) {
+        Person.create(persons[1]).then(function () {
+          done();
+        }, done);
+      });
+
+      before(function (done) {
+        Person.create(persons[2]).then(function () {
+          done();
+        }, done);
+      });
+
+      after(function (done) {
+        connector.connect().call('flushall').then(function () {
+          done();
+        }, done);
+      });
+
+      it('can remove all instances of one model', function (done) {
+        Person.remove().then(function (res) {
+          res.should.deepEqual({
+            count: 3
+          });
+          done();
+        }).catch(done);
+      });
+
+      it('cannot remove all instances of one model again', function (done) {
+        Person.remove().then(function (res) {
+          res.should.deepEqual({
+            count: 0
+          });
+          done();
+        }).catch(done);
+      });
     });
   });
 
