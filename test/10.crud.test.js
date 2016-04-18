@@ -144,8 +144,7 @@ describe('Couchbase CRUD', function () {
 
     it('cannot find an unsaved instance', function (done) {
       Person.findById('1234').then(function (res) {
-        res.should.be.Object();
-        res.should.be.empty;
+        should.not.exist(res);
         done();
       }).catch(done);
     });
@@ -334,9 +333,8 @@ describe('Couchbase CRUD', function () {
 
     it('cannot find wrong instances by id', function (done) {
       Person.findByIds(['0', 'lorem']).then(function (res) {
-        res.should.be.Array().with.length(2);
+        res.should.be.Array().with.length(1);
         res[0].should.have.property('name', 'Charlie');
-        res[1].should.be.empty;
         done();
       }).catch(done);
     });
@@ -373,9 +371,8 @@ describe('Couchbase CRUD', function () {
           }
         }
       }).then(function (res) {
-        res.should.be.Array().with.length(2);
+        res.should.be.Array().with.length(1);
         res[0].should.have.property('name', 'Charlie');
-        res[1].should.be.empty;
         done();
       }).catch(done);
     });
@@ -399,9 +396,7 @@ describe('Couchbase CRUD', function () {
           id: {}
         }
       }).then(function (res) {
-        res.should.be.Array().with.length(1);
-        res[0].should.be.Object();
-        res[0].should.be.empty;
+        res.length.should.be.equal(0);
         done();
       }).catch(done);
     });
