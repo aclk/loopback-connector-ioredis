@@ -144,7 +144,8 @@ describe('Couchbase CRUD', function () {
 
     it('cannot find an unsaved instance', function (done) {
       Person.findById('1234').then(function (res) {
-        should.not.exist(res);
+        res.should.be.Object();
+        res.should.be.empty;
         done();
       }).catch(done);
     });
@@ -398,7 +399,9 @@ describe('Couchbase CRUD', function () {
           id: {}
         }
       }).then(function (res) {
-        res.should.be.Array().with.length(0);
+        res.should.be.Array().with.length(1);
+        res[0].should.be.Object();
+        res[0].should.be.empty;
         done();
       }).catch(done);
     });
