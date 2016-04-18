@@ -119,6 +119,20 @@ describe('Couchbase CRUD', function () {
     });
 
     it('can find a saved instance', function (done) {
+      Person.find({
+        where: {
+          id: '0'
+        }
+      }).then(function (res) {
+        res.should.be.Array().with.length(1);
+        res[0].id.should.equal('0');
+        res[0].name.should.equal('Charlie');
+        res[0].age.should.equal(24);
+        done();
+      }).catch(done);
+    });
+
+    it('can find a saved instance', function (done) {
       Person.findById(id3).then(function (person) {
         person.should.be.Object();
         person.id.should.equal(id3);
@@ -363,6 +377,59 @@ describe('Couchbase CRUD', function () {
         res[1].should.be.empty;
         done();
       }).catch(done);
+    });
+
+    it('can find empty when giving empty id array in inq', function (done) {
+      Person.find({
+        where: {
+          id: {
+            inq: []
+          }
+        }
+      }).then(function (res) {
+        res.should.be.Array().with.length(0);
+        done();
+      }).catch(done);
+    });
+
+    it('can find empty when giving empty id object', function (done) {
+      Person.find({
+        where: {
+          id: {}
+        }
+      }).then(function (res) {
+        res.should.be.Array().with.length(0);
+        done();
+      }).catch(done);
+    });
+
+    it('cannot find when giving empty where object', function (done) {
+      Person.find({
+        where: {}
+      }).then(function () {
+        done(new Error('expected an error'));
+      }, function (err) {
+        should.exist(err);
+        done();
+      });
+    });
+
+    it('cannot find when giving empty query object', function (done) {
+      Person.find({}).then(function () {
+        done(new Error('expected an error'));
+      }, function (err) {
+        should.exist(err);
+        done();
+      });
+    });
+
+    it('cannot find when giving empty', function (done) {
+      Person.find().then(function () {
+        done(new Error('expected an error'));
+      }, function (err) {
+        should.exist(err);
+        done();
+      });
     });
 
     // TODO: more errors
