@@ -38,14 +38,14 @@ var config = {
   // readOnly: false
 };
 
-exports.getDataSource = function (customConfig, callback) {
-  var promise = new Promise(function (resolve, reject) {
+exports.getDataSource = function(customConfig, callback) {
+  var promise = new Promise(function(resolve, reject) {
     var db = new DataSource(require('../'), customConfig || config);
 
-    db.log = function (a) {
+    db.log = function(a) {
       console.log(a);
     };
-    db.on('connected', function () {
+    db.on('connected', function() {
       resolve(db);
     });
     db.on('error', reject);
