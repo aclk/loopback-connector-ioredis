@@ -11,6 +11,8 @@ describe('Couchbase CRUD', function() {
   var connector;
   var Person;
   var persons;
+  var Noise;
+  var noises;
 
   before(function(done) {
     init.getDataSource(null, function(err, res) {
@@ -43,6 +45,19 @@ describe('Couchbase CRUD', function() {
         name: 'Jason',
         age: 44
       }];
+      Noise = db.createModel('noise', {
+        id: {
+          type: String,
+          id: true
+        },
+        name: String,
+        age: Number
+      });
+      noises = [{
+        id: '0',
+        name: 'Charlie',
+        age: 99
+      }];
       done();
     });
   });
@@ -57,7 +72,7 @@ describe('Couchbase CRUD', function() {
     after(function(done) {
       connector.connect().call('flushall').then(function() {
         done();
-      }, done);
+      }).catch(done);
     });
 
     it('can create an instance with an id', function(done) {
@@ -94,20 +109,26 @@ describe('Couchbase CRUD', function() {
     before(function(done) {
       Person.create(persons[0]).then(function() {
         done();
-      }, done);
+      }).catch(done);
     });
 
     before(function(done) {
       Person.create(persons[3]).then(function(person) {
         id3 = person.id;
         done();
-      }, done);
+      }).catch(done);
+    });
+
+    before(function(done) {
+      Noise.create(noises[0]).then(function() {
+        done();
+      }).catch(done);
     });
 
     after(function(done) {
       connector.connect().call('flushall').then(function() {
         done();
-      }, done);
+      }).catch(done);
     });
 
     it('can find a saved instance', function(done) {
@@ -158,13 +179,13 @@ describe('Couchbase CRUD', function() {
     before(function(done) {
       Person.create(persons[0]).then(function() {
         done();
-      }, done);
+      }).catch(done);
     });
 
     after(function(done) {
       connector.connect().call('flushall').then(function() {
         done();
-      }, done);
+      }).catch(done);
     });
 
     it('can destroy a saved instance', function(done) {
@@ -190,13 +211,13 @@ describe('Couchbase CRUD', function() {
     before(function(done) {
       Person.create(persons[0]).then(function() {
         done();
-      }, done);
+      }).catch(done);
     });
 
     after(function(done) {
       connector.connect().call('flushall').then(function() {
         done();
-      }, done);
+      }).catch(done);
     });
 
     it('can destroy a saved instance', function(done) {
@@ -227,13 +248,13 @@ describe('Couchbase CRUD', function() {
     before(function(done) {
       Person.create(persons[0]).then(function() {
         done();
-      }, done);
+      }).catch(done);
     });
 
     after(function(done) {
       connector.connect().call('flushall').then(function() {
         done();
-      }, done);
+      }).catch(done);
     });
 
     it('can update an instance', function(done) {
@@ -267,13 +288,13 @@ describe('Couchbase CRUD', function() {
     before(function(done) {
       Person.create(persons[0]).then(function() {
         done();
-      }, done);
+      }).catch(done);
     });
 
     after(function(done) {
       connector.connect().call('flushall').then(function() {
         done();
-      }, done);
+      }).catch(done);
     });
 
     it('can update an instance', function(done) {
@@ -307,19 +328,25 @@ describe('Couchbase CRUD', function() {
     before(function(done) {
       Person.create(persons[0]).then(function() {
         done();
-      }, done);
+      }).catch(done);
     });
 
     before(function(done) {
       Person.create(persons[1]).then(function() {
         done();
-      }, done);
+      }).catch(done);
+    });
+
+    before(function(done) {
+      Noise.create(noises[0]).then(function() {
+        done();
+      }).catch(done);
     });
 
     after(function(done) {
       connector.connect().call('flushall').then(function() {
         done();
-      }, done);
+      }).catch(done);
     });
 
     it('can find 2 instances by id', function(done) {
@@ -398,7 +425,7 @@ describe('Couchbase CRUD', function() {
           id: {}
         }
       }).then(function(res) {
-        res.length.should.be.equal(0);
+        res.should.be.Array().with.length(0);
         done();
       }).catch(done);
     });
@@ -407,21 +434,21 @@ describe('Couchbase CRUD', function() {
       Person.find({
         where: {}
       }).then(function(res) {
-        res.length.should.be.equal(0);
+        res.should.be.Array().with.length(0);
         done();
       }).catch(done);
     });
 
-    it('cannot find when giving empty query object', function(done) {
+    it('can find all instances with empty query', function(done) {
       Person.find({}).then(function(res) {
-        res.length.should.be.equal(0);
+        res.should.be.Array().with.length(2);
         done();
       }).catch(done);
     });
 
-    it('cannot find when giving empty', function(done) {
+    it('can find all instances with no arguments', function(done) {
       Person.find().then(function(res) {
-        res.length.should.be.equal(0);
+        res.should.be.Array().with.length(2);
         done();
       }).catch(done);
     });
@@ -434,25 +461,25 @@ describe('Couchbase CRUD', function() {
       before(function(done) {
         Person.create(persons[0]).then(function() {
           done();
-        }, done);
+        }).catch(done);
       });
 
       before(function(done) {
         Person.create(persons[1]).then(function() {
           done();
-        }, done);
+        }).catch(done);
       });
 
       before(function(done) {
         Person.create(persons[2]).then(function() {
           done();
-        }, done);
+        }).catch(done);
       });
 
       after(function(done) {
         connector.connect().call('flushall').then(function() {
           done();
-        }, done);
+        }).catch(done);
       });
 
       it('can remove 2 instances', function(done) {
@@ -494,29 +521,30 @@ describe('Couchbase CRUD', function() {
         }).catch(done);
       });
     });
+
     describe('Destroy all instances', function() {
       before(function(done) {
         Person.create(persons[0]).then(function() {
           done();
-        }, done);
+        }).catch(done);
       });
 
       before(function(done) {
         Person.create(persons[1]).then(function() {
           done();
-        }, done);
+        }).catch(done);
       });
 
       before(function(done) {
         Person.create(persons[2]).then(function() {
           done();
-        }, done);
+        }).catch(done);
       });
 
       after(function(done) {
         connector.connect().call('flushall').then(function() {
           done();
-        }, done);
+        }).catch(done);
       });
 
       it('can remove all instances of one model', function(done) {
