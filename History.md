@@ -1,4 +1,9 @@
 
+0.1.3 / 2016-05-12
+==================
+
+  * Add support to findAll without where filte.12 support.
+
 0.1.2 / 2016-04-21
 ==================
 
