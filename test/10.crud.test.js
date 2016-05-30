@@ -298,7 +298,7 @@ describe('Couchbase CRUD', function() {
     });
 
     it('can update an instance', function(done) {
-      var person = Person.findById('0').then(function(person) {
+      Person.findById('0').then(function(person) {
         person.name = 'Charlie II';
         person.save().then(function(res) {
           res.should.be.Object();
