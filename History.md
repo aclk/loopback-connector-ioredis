@@ -1,4 +1,10 @@
 
+0.1.4 / 2016-05-30
+==================
+
+  * Coding style changes: use `Promise.bind()`, change `model` to `modelName`.
+  * Fixed tests for `find()` with no arguments.
+
 0.1.3 / 2016-05-12
 ==================
 
