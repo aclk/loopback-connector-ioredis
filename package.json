@@ -1,6 +1,6 @@
 {
   "name": "loopback-connector-ioredis",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "LoopBack Redis Connector using ioredis",
   "author": {
     "name": "Wiredcraft",

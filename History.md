@@ -1,4 +1,10 @@
 
+0.1.5 / 2016-06-28
+==================
+
+  * Updated modules.
+  * Lock the ID before really create, and conflict if there's a lock already.
+
 0.1.4 / 2016-05-30
 ==================
 
