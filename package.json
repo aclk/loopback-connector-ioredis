@@ -33,7 +33,8 @@
     "http-errors": "^1.5.0",
     "ioredis": "^1.15.1",
     "loopback-connector": "^2.3.0",
-    "node-uuid": "^1.4.0"
+    "node-uuid": "^1.4.0",
+    "redlock": "^2.0.0"
   },
   "devDependencies": {
     "coveralls": "^2.11.9",

@@ -2,6 +2,7 @@
 
 var should = require('should');
 var uuid = require('node-uuid');
+var Promise = require('bluebird');
 
 var init = require('./init');
 
@@ -98,6 +99,24 @@ describe('Couchbase CRUD', function() {
         should.exist(err);
         done();
       });
+    });
+
+    it('cannot create when there is a lock', function(done) {
+      Promise.using(connector.lockById('person', persons[2].id), function(lock) {
+        return Person.create(persons[2]).then(function() {
+          throw new Error('expected an error');
+        }, function(err) {
+          should.exist(err);
+        });
+      }).asCallback(done);
+    });
+
+    it('can create now when it is unlocked', function(done) {
+      Person.create(persons[2]).then(function(person) {
+        person.id.should.equal('2');
+        person.name.should.equal('David');
+        done();
+      }).catch(done);
     });
 
     // TODO: more errors
