@@ -28,22 +28,22 @@
   },
   "homepage": "https://github.com/Wiredcraft/loopback-connector-ioredis",
   "dependencies": {
-    "bluebird": "^3.4.0",
+    "bluebird": "^3.4.1",
     "debug": "^2.2.0",
     "http-errors": "^1.5.0",
-    "ioredis": "^1.15.1",
+    "ioredis": "^2.1.0",
     "loopback-connector": "^2.3.0",
     "node-uuid": "^1.4.0",
     "redlock": "^2.0.0"
   },
   "devDependencies": {
     "coveralls": "^2.11.9",
-    "istanbul": "^0.4.3",
-    "jscs": "^3.0.3",
-    "loopback-datasource-juggler": "^2.46.0",
+    "istanbul": "^0.4.4",
+    "jscs": "^3.0.5",
+    "loopback-datasource-juggler": "^2.46.1",
     "mocha": "^2.5.3",
     "rc": "^1.0.0",
-    "should": "^8.4.0"
+    "should": "^9.0.2"
   },
   "scripts": {
     "test": "make test"
