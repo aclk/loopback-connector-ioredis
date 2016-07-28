@@ -6,7 +6,7 @@ var Promise = require('bluebird');
 
 var init = require('./init');
 
-describe('Couchbase CRUD', function() {
+describe('Redis CRUD', function() {
 
   var db;
   var connector;
@@ -449,11 +449,11 @@ describe('Couchbase CRUD', function() {
       }).catch(done);
     });
 
-    it('cannot find when giving empty where object', function(done) {
+    it('can find all instances with empty where', function(done) {
       Person.find({
         where: {}
       }).then(function(res) {
-        res.should.be.Array().with.length(0);
+        res.should.be.Array().with.length(2);
         done();
       }).catch(done);
     });
