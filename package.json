@@ -1,6 +1,6 @@
 {
   "name": "loopback-connector-ioredis",
-  "version": "0.1.5",
+  "version": "0.2.0",
   "description": "LoopBack Redis Connector using ioredis",
   "author": {
     "name": "Wiredcraft",
@@ -31,7 +31,7 @@
     "bluebird": "^3.4.1",
     "debug": "^2.2.0",
     "http-errors": "^1.5.0",
-    "ioredis": "^2.2.0",
+    "ioredis": "^2.3.0",
     "loopback-connector": "^2.4.0",
     "loopback-connector-nosql": "^0.1.0",
     "moment": "^2.14.1",
@@ -42,9 +42,9 @@
     "coveralls": "^2.11.12",
     "istanbul": "^0.4.4",
     "jscs": "^3.0.7",
-    "loopback-datasource-juggler": "^2.47.0",
-    "mocha": "^2.5.3",
-    "should": "^10.0.0"
+    "loopback-datasource-juggler": "^2.49.0",
+    "mocha": "^3.0.2",
+    "should": "^11.1.0"
   },
   "scripts": {
     "test": "make test"

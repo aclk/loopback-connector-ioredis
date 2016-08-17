@@ -1,4 +1,9 @@
 
+0.2.0 / 2016-08-17
+==================
+
+  * Reimplemented based on `loopback-connector-nosql`.
+
 0.1.5 / 2016-06-28
 ==================
 
