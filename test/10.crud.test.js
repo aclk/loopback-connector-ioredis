@@ -1,7 +1,7 @@
 'use strict';
 
 var should = require('should');
-var uuid = require('node-uuid');
+var uuid = require('uuid');
 var Promise = require('bluebird');
 
 var init = require('./init');
