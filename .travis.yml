@@ -5,14 +5,16 @@ cache:
     - node_modules
 notifications:
   email: false
+branches:
+  only:
+    - master
 node_js:
-  - "5"
+  - "6"
   - "4"
 services:
   - redis-server
 install:
   - npm install
-before_script:
   - npm prune
 script:
   - make test-coveralls
