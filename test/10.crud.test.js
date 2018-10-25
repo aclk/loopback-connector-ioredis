@@ -1,19 +1,19 @@
 'use strict';
 
-var should = require('should');
-var uuid = require('uuid');
-var Promise = require('bluebird');
+const should = require('should');
+const uuid = require('uuid');
+const Promise = require('bluebird');
 
-var init = require('./init');
+const init = require('./init');
 
 describe('Redis CRUD', function() {
 
-  var db;
-  var connector;
-  var Person;
-  var persons;
-  var Noise;
-  var noises;
+  let db;
+  let connector;
+  let Person;
+  let persons;
+  let Noise;
+  let noises;
 
   before(function(done) {
     init.getDataSource(null, function(err, res) {
@@ -150,7 +150,7 @@ describe('Redis CRUD', function() {
       }).catch(done);
     });
 
-    it('can find a saved instance', function(done) {
+    it('can find a saved instance - 1', function(done) {
       Person.findById('0').then(function(person) {
         person.should.be.Object();
         person.id.should.equal('0');
@@ -160,7 +160,7 @@ describe('Redis CRUD', function() {
       }).catch(done);
     });
 
-    it('can find a saved instance', function(done) {
+    it('can find a saved instance - 2', function(done) {
       Person.find({
         where: {
           id: '0'
@@ -174,7 +174,7 @@ describe('Redis CRUD', function() {
       }).catch(done);
     });
 
-    it('can find a saved instance', function(done) {
+    it('can find a saved instance - 3', function(done) {
       Person.findById(id3).then(function(person) {
         person.should.be.Object();
         person.id.should.equal(id3);

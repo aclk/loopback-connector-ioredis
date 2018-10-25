@@ -1,14 +1,14 @@
 'use strict';
 
-var should = require('should');
-var Redis = require('ioredis');
+const should = require('should');
+const Redis = require('ioredis');
 
-var init = require('./init');
+const init = require('./init');
 
 describe('Redis connector', function() {
 
-  var db;
-  var connector;
+  let db;
+  let connector;
 
   it('can connect', function(done) {
     init.getDataSource(null, function(err, res) {
